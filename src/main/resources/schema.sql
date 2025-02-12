@@ -1,0 +1,9 @@
+DROP TABLE IF EXISTS events;
+
+CREATE TABLE IF NOT EXISTS events (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255),
+    sport VARCHAR(255),
+    status VARCHAR(50),
+    start_time TIMESTAMP
+);
