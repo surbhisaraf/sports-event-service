@@ -129,7 +129,7 @@ public class EventServiceTest {
         when(eventRepo.findById(1L)).thenReturn(Optional.empty());
 
         ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> {
-                eventService.updateEventById(1L, EventStatus.FINISHED);
+            eventService.updateEventById(1L, EventStatus.FINISHED);
         });
 
         assertEquals("event not found with id: 1", exception.getMessage());

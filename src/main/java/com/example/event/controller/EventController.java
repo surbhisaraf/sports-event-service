@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/sport-event")
+@RequestMapping("/api/v1/sports-event")
 public class EventController {
 
     private static final Logger logger = LoggerFactory.getLogger(EventController.class);
@@ -32,28 +32,25 @@ public class EventController {
 
     @GetMapping("/getEvents")
     public ResponseEntity<?> getEventsBySportAndStatus( @RequestParam(required = false) String sport,
-         @RequestParam(required = false) String status) {
-            EventStatus validEventStatus = null;
-            sport = (sport != null && sport.isEmpty()) ? null : sport;
-            status = (status != null && status.isEmpty()) ? null : status;
-            if (status != null){
-                 validEventStatus = eventService.validateStatus(status);
-            }
-            List<Event> event = eventService.getEventsBySportAndStatus(sport,validEventStatus);
-            return ResponseEntity.status(200).body(new GenericResponse<>("Events fetched successfully", event));
+                                                        @RequestParam(required = false) String status) {
+        sport = (sport == null || sport.isEmpty()) ? null : sport;
+        status = (status == null || status.isEmpty()) ? null : status;
+        EventStatus validEventStatus = eventService.validateStatus(status);
+        List<Event> event = eventService.getEventsBySportAndStatus(sport,validEventStatus);
+        return ResponseEntity.status(200).body(new GenericResponse<>("Events fetched successfully", event));
     }
 
     @PostMapping("/create")
     public ResponseEntity<?> createEvent(@Valid @RequestBody EventRequestObj event) throws Exception {
 
-            Event savedEvent = eventService.createEvent(event);
-            return ResponseEntity.status(201).body(new GenericResponse<>("Event created successfully", savedEvent));
+        Event savedEvent = eventService.createEvent(event);
+        return ResponseEntity.status(201).body(new GenericResponse<>("Event created successfully", savedEvent));
     }
 
     @PatchMapping("/{id}/updateStatus")
     public ResponseEntity<?> updateEventStatus(@PathVariable Long id,@RequestParam(required = true) String status) {
-            EventStatus validEventStatus = eventService.validateStatus(status);
-            Event updatedEvent = eventService.updateEventById(id, validEventStatus);
-            return ResponseEntity.status(200).body(new GenericResponse<>("Event status changed successfully", updatedEvent));
+        EventStatus validEventStatus = eventService.validateStatus(status);
+        Event updatedEvent = eventService.updateEventById(id, validEventStatus);
+        return ResponseEntity.status(200).body(new GenericResponse<>("Event status changed successfully", updatedEvent));
     }
 }

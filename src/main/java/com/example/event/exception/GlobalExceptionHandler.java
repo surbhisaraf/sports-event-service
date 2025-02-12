@@ -26,7 +26,6 @@ public class GlobalExceptionHandler {
     public ResponseEntity<GenericResponse<List<String>>> handleValidationExceptions(MethodArgumentNotValidException ex) {
         BindingResult bindingResult = ex.getBindingResult();
 
-        // Extract error messages from binding result
         List<String> errors = bindingResult.getAllErrors().stream()
                 .map(objectError -> {
                     if (objectError instanceof FieldError fieldError) {
@@ -36,7 +35,6 @@ public class GlobalExceptionHandler {
                 })
                 .toList();
 
-        // Return the error response
         return new ResponseEntity<>(new GenericResponse<>("Validation failed:",errors), HttpStatus.BAD_REQUEST);
     }
 

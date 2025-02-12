@@ -27,13 +27,13 @@ public class EventService {
     private EventRepo eventRepo;
 
     public Event getEventById(Long id) throws ResourceNotFoundException {
-            Optional<Event> event = eventRepo.findById(id);
-            if(event.isEmpty()) {
-                logger.error("Event not found with id: {}", id);
-                throw new ResourceNotFoundException("Event not found");
-            }
-            logger.info("Event fetched successfully with id: {}", id);
-            return event.get();
+        Optional<Event> event = eventRepo.findById(id);
+        if(event.isEmpty()) {
+            logger.error("Event not found with id: {}", id);
+            throw new ResourceNotFoundException("Event not found");
+        }
+        logger.info("Event fetched successfully with id: {}", id);
+        return event.get();
     }
 
     public List<Event> getEventsBySportAndStatus(String sport, EventStatus status) {
@@ -80,6 +80,9 @@ public class EventService {
 
 
     public EventStatus validateStatus(String status) {
+        if (status == null) {
+            return null;
+        }
         try {
             return EventStatus.valueOf(status.toUpperCase());
         } catch (IllegalArgumentException e) {
