@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/api/v1/sport-event")
 public class EventController {
 
@@ -26,14 +25,14 @@ public class EventController {
     private EventService eventService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getEventById(@PathVariable Long id) throws ResourceNotFoundException {
+    public ResponseEntity<?> getEventById(@PathVariable Long id) {
         Event event = eventService.getEventById(id);
         return ResponseEntity.status(200).body(new GenericResponse<>("Event fetched successfully", event));
     }
 
     @GetMapping("/getEvents")
     public ResponseEntity<?> getEventsBySportAndStatus( @RequestParam(required = false) String sport,
-         @RequestParam(required = false) String status) throws ResourceNotFoundException {
+         @RequestParam(required = false) String status) {
             EventStatus validEventStatus = null;
             sport = (sport != null && sport.isEmpty()) ? null : sport;
             status = (status != null && status.isEmpty()) ? null : status;
@@ -52,7 +51,7 @@ public class EventController {
     }
 
     @PatchMapping("/{id}/updateStatus")
-    public ResponseEntity<?> updateEventStatus(@PathVariable Long id,@RequestParam(required = true) String status) throws Exception {
+    public ResponseEntity<?> updateEventStatus(@PathVariable Long id,@RequestParam(required = true) String status) {
             EventStatus validEventStatus = eventService.validateStatus(status);
             Event updatedEvent = eventService.updateEventById(id, validEventStatus);
             return ResponseEntity.status(200).body(new GenericResponse<>("Event status changed successfully", updatedEvent));

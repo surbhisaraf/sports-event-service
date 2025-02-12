@@ -13,5 +13,5 @@ import java.util.Optional;
 public interface EventRepo extends JpaRepository<Event, Long> {
 
   @Query("SELECT e FROM Event e WHERE (:sport IS NULL OR LOWER(e.sport) = LOWER(:sport)) AND (:status IS NULL OR e.status = :status)")
-  Optional<List<Event>> findBySportAndStatus(@Param("sport") String sport, @Param("status") EventStatus status);
+  List<Event> findBySportAndStatus(@Param("sport") String sport, @Param("status") EventStatus status);
 }

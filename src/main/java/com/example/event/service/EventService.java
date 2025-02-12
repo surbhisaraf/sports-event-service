@@ -37,9 +37,9 @@ public class EventService {
     }
 
     public List<Event> getEventsBySportAndStatus(String sport, EventStatus status) {
-        Optional<List<Event>> eventsList = eventRepo.findBySportAndStatus(sport,status);
-        logger.debug("Number of patients fetched: {}", eventsList.get().size());
-        return new ArrayList<>(eventsList.get());
+        List<Event> eventsList = eventRepo.findBySportAndStatus(sport,status);
+        logger.debug("Number of patients fetched: {}", eventsList.size());
+        return new ArrayList<>(eventsList);
     }
 
     public Event createEvent(EventRequestObj event) throws Exception {
@@ -74,7 +74,8 @@ public class EventService {
             throw new InvalidEventStatusException("Event start time cannot be in the past - " + time);
         }
         existingEvent.get().setStatus(status);
-        return eventRepo.save(existingEvent.get());
+        Event updatedEvent = existingEvent.get();
+        return eventRepo.save(updatedEvent);
     }
 
 

@@ -20,4 +20,12 @@ public class GenericResponse<T> {
         this.message = message;
         this.data = data;
     }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public T getData() {
+        return data;
+    }
 }
